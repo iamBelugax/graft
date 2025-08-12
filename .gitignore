@@ -1,0 +1,47 @@
+# Binaries for programs
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.cgo1.go
+*.cgo2.c
+_cgo_def_*.c
+_cgo_gotypes.go
+_cgo_export.*
+
+# Output directory for cross-compiled binaries from the Makefile
+bin/
+dist/
+gen/
+.DS_Store
+coverage/
+.vscode/
+
+# Test coverage reports
+*.out
+
+# ide files
+.idea/
+*.sublime-workspace
+*.vim.swp
+*.vim.swo
+
+# Environment variables file
+.env
+
+# Dependency directories (only if you are vendoring)
+# With Go modules, vendoring is optional and less common.
+# Uncomment the line below if you use `go mod vendor`.
+/vendor/
+
+# Log files
+*.log
+log/
+
+# Temporary files
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
