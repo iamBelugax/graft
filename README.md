@@ -1,6 +1,4 @@
-# graft
-
-## About This Project
+# graft - Simple implementation of the Raft Consensus Algorithm in Go.
 
 This project is a Go implementation of Raft, built for learning and
 experimentation. The focus is on clarity rather than performance or
