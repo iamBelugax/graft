@@ -1,10 +1,22 @@
 package domain
 
-// EntryKind represents the category of a log entry.
-type EntryKind uint8
+// LogEntryKind represents the category of a log entry.
+type LogEntryKind uint8
 
 const (
 	// KindNormal represents a standard log entry containing
 	// client commands that should be replicated across the cluster.
-	KindNormal EntryKind = iota
+	KindNormal LogEntryKind = iota
 )
+
+// LogEntry represents a single entry in the Raft log.
+type LogEntry struct {
+	// Term is the term number when the entry was created by the leader.
+	Term Term
+
+	// Kind specifies the type of log entry.
+	Kind LogEntryKind
+
+	// Payload holds the actual command to be applied to the state machine.
+	Payload []byte
+}

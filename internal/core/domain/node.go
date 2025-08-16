@@ -19,4 +19,7 @@ type Node struct {
 
 	// State indicates whether the node is a Follower, Candidate, or Leader.
 	State NodeState
+
+	// LogEntries stores the sequence of log entries replicated via the Raft protocol.
+	LogEntries []*LogEntry
 }
