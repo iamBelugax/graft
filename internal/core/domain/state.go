@@ -6,7 +6,7 @@ package domain
 type Term uint64
 
 // NodeState represents the state of a node in the Raft consensus algorithm.
-// A node can either be a follower, candidate, or leader depending on the election state.
+// A node can either be a follower, candidate or leader depending on the election state.
 type NodeState uint8
 
 const (
@@ -35,4 +35,10 @@ func (s NodeState) String() string {
 	default:
 		return "Unknown"
 	}
+}
+
+// IsValid checks whether the NodeState value is within
+// the valid Raft states (Follower, Candidate, Leader).
+func (s NodeState) IsValid() bool {
+	return s >= FOLLOWER && s <= LEADER
 }

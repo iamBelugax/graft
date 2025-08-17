@@ -14,6 +14,9 @@ type LogEntry struct {
 	// Term is the term number when the entry was created by the leader.
 	Term Term
 
+	// Index is the position of the entry in the log.
+	Index int64
+
 	// Kind specifies the type of log entry.
 	Kind LogEntryKind
 
