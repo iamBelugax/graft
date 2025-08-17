@@ -59,6 +59,10 @@ message AppendEntriesRequest {
 
 // AppendEntriesResponse represents the reply to an AppendEntries RPC.
 message AppendEntriesResponse {
-  uint64 term    = 1; // Current term of the follower (for leader to update itself).
-  bool   success = 2; // True if follower contained matching prev_log_index and prev_log_term.
+  uint64 term           = 1; // Current term of the follower (for leader to update itself).
+  bool   success        = 2; // True if follower contained matching prev_log_index and prev_log_term.
+  uint64 conflict_term  = 3; // Term of the conflicting entry (only valid if success == false).
+  int64  conflict_index = 4; // Index of the first entry with conflict_term (for fast backtracking).
+  int64  last_log_index = 5; // Index of the follower's last log entry.
 }
+
