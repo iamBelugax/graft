@@ -6,15 +6,12 @@ import (
 
 // Peer represents metadata about another node in the cluster.
 type Peer struct {
-	// ID is the unique identifier for the peer node.
-	ID string
-
-	// Address is the network location (host:port) of the peer node.
-	Address string
+	ID      string // ID is the unique identifier for the peer node.
+	Address string // Address is the network location (host:port) of the peer node.
 }
 
-// Node represents a single Raft participant.
-type Node struct {
+// Context holds the runtime state of a Raft node.
+type Context struct {
 	// ID is the unique identifier for the node.
 	ID string
 
@@ -28,10 +25,15 @@ type Node struct {
 	VotedFor string
 
 	// State indicates whether the node is a Follower, Candidate, or Leader.
-	State NodeState
+	State State
 
 	// LogEntries stores the sequence of log entries replicated via the Raft protocol.
 	LogEntries []*LogEntry
+}
+
+// Node represents a single Raft participant.
+type Node struct {
+	Context *Context
 
 	// Peers holds references to other nodes in the cluster.
 	Peers []*Peer
@@ -53,8 +55,8 @@ type Node struct {
 }
 
 // Is checks if the node is in the given state.
-func (n *Node) Is(state NodeState) bool {
-	return n.State.IsValid() && state.IsValid() && n.State == state
+func (n *Node) Is(state State) bool {
+	return n.Context.State.IsValid() && state.IsValid() && n.Context.State == state
 }
 
 // IsFollower checks if the node is in the Follower state.
