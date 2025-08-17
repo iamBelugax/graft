@@ -1,5 +1,7 @@
 package domain
 
+import graftpb "github.com/iamBelugax/graft/internal/adapters/primary/grpc/proto/__gen__"
+
 // Term represents the logical time in Raft.
 // It is a monotonically increasing number used to identify
 // the "era" of leadership. Each new election increments the term.
@@ -41,4 +43,9 @@ func (s NodeState) String() string {
 // the valid Raft states (Follower, Candidate, Leader).
 func (s NodeState) IsValid() bool {
 	return s >= FOLLOWER && s <= LEADER
+}
+
+// ToPB converts a domain level NodeState into its protobuf representation.
+func (s NodeState) ToPB() graftpb.NodeState {
+	return graftpb.NodeState(s)
 }

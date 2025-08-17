@@ -4,13 +4,10 @@ import (
 	"time"
 )
 
-// NodeID uniquely identifies a node in the Raft cluster.
-type NodeID string
-
 // Peer represents metadata about another node in the cluster.
 type Peer struct {
 	// ID is the unique identifier for the peer node.
-	ID NodeID
+	ID string
 
 	// Address is the network location (host:port) of the peer node.
 	Address string
@@ -19,7 +16,7 @@ type Peer struct {
 // Node represents a single Raft participant.
 type Node struct {
 	// ID is the unique identifier for the node.
-	ID NodeID
+	ID string
 
 	// Address holds the network address (host:port) used to communicate with this node.
 	Address string
@@ -28,7 +25,7 @@ type Node struct {
 	CurrentTerm Term
 
 	// VotedFor records the candidate ID that this node voted for in its CurrentTerm.
-	VotedFor NodeID
+	VotedFor string
 
 	// State indicates whether the node is a Follower, Candidate, or Leader.
 	State NodeState

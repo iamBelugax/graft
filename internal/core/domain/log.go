@@ -1,5 +1,7 @@
 package domain
 
+import graftpb "github.com/iamBelugax/graft/internal/adapters/primary/grpc/proto/__gen__"
+
 // LogEntryKind represents the category of a log entry.
 type LogEntryKind uint8
 
@@ -22,4 +24,14 @@ type LogEntry struct {
 
 	// Payload holds the actual command to be applied to the state machine.
 	Payload []byte
+}
+
+// ToPB converts a domain level LogEntry into its protobuf representation.
+func (le *LogEntry) ToPB() *graftpb.LogEntry {
+	return &graftpb.LogEntry{
+		Term:    uint64(le.Term),
+		Index:   le.Index,
+		Kind:    graftpb.EntryKind(le.Kind),
+		Payload: le.Payload,
+	}
 }
