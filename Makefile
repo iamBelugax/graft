@@ -1,6 +1,6 @@
 MODULE_PATH := github.com/iamBelugax/graft
-PROTO_DIR := ./internal/ports/primary/grpc/proto
-PROTO_OUT_DIR := ./internal/ports/primary/grpc/proto/__gen__
+PROTO_DIR := ./internal/adapters/primary/grpc/proto
+PROTO_OUT_DIR := ./internal/adapters/primary/grpc/proto/__gen__
 
 # ANSI Color Codes
 CYAN := \033[36m

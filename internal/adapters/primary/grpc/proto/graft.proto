@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package graft.v1;
+
+option go_package = "github.com/iamBelugax/graft;graftpb";
+
+// NodeState represents the role of a Raft node.
+enum NodeState {
+  FOLLOWER  = 0; // Responds to leader and candidate requests.
+  CANDIDATE = 1; // A node that is trying to become leader.
+  LEADER    = 2; // The elected leader responsible for log replication.
+}
+
+// EntryKind represents the type of a log entry in the Raft log.
+enum EntryKind {
+  NORMAL = 0; // Standard client command entry.
+}
+
+// LogEntry represents a single entry in the replicated Raft log.
+message LogEntry {
+  uint64    term    = 1; // Term when the entry was created by the leader.
+  int64     index   = 2; // Position of the entry in the log.
+  EntryKind kind    = 3; // Type of log entry.
+  bytes     payload = 4; // Command or data to be applied to the state machine.
+}
+
+// Graft defines the Raft RPC services.
+service Graft {
+  // RequestVote is invoked by candidates to gather votes during an election.
+  rpc RequestVote (RequestVoteRequest) returns (RequestVoteResponse);
+
+  // AppendEntries is invoked by leaders to replicate log entries and send heartbeats.
+  rpc AppendEntries (AppendEntriesRequest) returns (AppendEntriesResponse);
+}
+
+// RequestVoteRequest represents the arguments for a RequestVote RPC.
+message RequestVoteRequest {
+  uint64 term           = 1; // Candidate’s current term.
+  uint64 last_log_term  = 2; // Term of candidate’s last log entry.
+  int64  last_log_index = 3; // Index of candidate’s last log entry.
+  string candidate_id   = 4; // Unique ID of the requesting candidate.
+}
+
+// RequestVoteResponse represents the reply to a RequestVote RPC.
+message RequestVoteResponse {
+  uint64 term         = 1; // Current term of the voter (for candidate to update itself).
+  bool   vote_granted = 2; // True if the candidate received the vote.
+}
+
+// AppendEntriesRequest represents the arguments for an AppendEntries RPC.
+message AppendEntriesRequest {
+  uint64            term           = 1; // Leader’s current term.
+  string            leader_id      = 2; // ID of the leader (used by followers to redirect clients).
+  int64             prev_log_index = 3; // Index of log entry immediately preceding new ones.
+  uint64            prev_log_term  = 4; // Term of log entry at prev_log_index.
+  repeated LogEntry log_entries    = 5; // Log entries to store (empty for heartbeat).
+  int64             leader_commit  = 6; // Leader’s commit index.
+}
+
+// AppendEntriesResponse represents the reply to an AppendEntries RPC.
+message AppendEntriesResponse {
+  uint64 term    = 1; // Current term of the follower (for leader to update itself).
+  bool   success = 2; // True if follower contained matching prev_log_index and prev_log_term.
+}
