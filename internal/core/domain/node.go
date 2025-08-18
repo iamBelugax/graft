@@ -2,12 +2,20 @@ package domain
 
 import (
 	"time"
+
+	graftpb "github.com/iamBelugax/graft/internal/adapters/primary/grpc/proto/__gen__"
 )
 
 // Peer represents metadata about another node in the cluster.
 type Peer struct {
-	ID      string // ID is the unique identifier for the peer node.
-	Address string // Address is the network location (host:port) of the peer node.
+	// ID is the unique identifier for the peer node.
+	ID string
+
+	// Address is the network location (host:port) of the peer node.
+	Address string
+
+	// Client is the gRPC client used to communicate with this peer.
+	Client graftpb.GraftClient
 }
 
 // Context holds the runtime state of a Raft node.
@@ -25,7 +33,7 @@ type Context struct {
 	VotedFor string
 
 	// State indicates whether the node is a Follower, Candidate, or Leader.
-	State State
+	State NodeState
 
 	// LogEntries stores the sequence of log entries replicated via the Raft protocol.
 	LogEntries []*LogEntry
@@ -38,9 +46,6 @@ type Node struct {
 	// Peers holds references to other nodes in the cluster.
 	Peers []*Peer
 
-	// Leader points to the current known leader of the cluster.
-	Leader *Peer
-
 	// ElectionTimeout defines how long a follower waits without hearing from a leader
 	// before starting a new election.
 	ElectionTimeout time.Duration
@@ -50,12 +55,11 @@ type Node struct {
 	HeartbeatInterval time.Duration
 
 	// LastHeartbeatAt records the last time a heartbeat was received.
-	// Used by followers to detect leader failures.
 	LastHeartbeatAt time.Time
 }
 
 // Is checks if the node is in the given state.
-func (n *Node) Is(state State) bool {
+func (n *Node) Is(state NodeState) bool {
 	return n.Context.State.IsValid() && state.IsValid() && n.Context.State == state
 }
 

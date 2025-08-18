@@ -13,7 +13,8 @@ enum NodeState {
 
 // EntryKind represents the type of a log entry in the Raft log.
 enum EntryKind {
-  NORMAL = 0; // Standard client command entry.
+  NORMAL    = 0; // Standard client command entry.
+  HEARTBEAT = 1; // Heartbeat command entry.
 }
 
 // LogEntry represents a single entry in the replicated Raft log.

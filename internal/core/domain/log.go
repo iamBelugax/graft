@@ -11,6 +11,10 @@ const (
 	// KindNormal represents a standard log entry containing
 	// client commands that should be replicated across the cluster.
 	KindNormal LogEntryKind = iota
+
+	// KindHeartbeat indicates a heartbeat entry used by the leader to maintain
+	// authority and prevent followers from starting a new election.
+	KindHeartbeat
 )
 
 // AsUint8 returns the LogEntryKind as a uint8.
