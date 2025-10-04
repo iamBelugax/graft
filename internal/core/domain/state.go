@@ -3,11 +3,10 @@ package domain
 import graftpb "github.com/iamBelugax/graft/internal/adapters/primary/grpc/proto/__gen__"
 
 // Term represents the logical time in Raft.
-// It is a monotonically increasing number used to identify
-// the "era" of leadership. Each new election increments the term.
+// It is a monotonically increasing number.
+// Each new election increments the term.
 type Term uint64
 
-// AsUint64 returns the Term as a uint64.
 func (t Term) AsUint64() uint64 {
 	return uint64(t)
 }
@@ -29,12 +28,10 @@ const (
 	LEADER
 )
 
-// AsUint8 returns the State as a uint8.
 func (s NodeState) AsUint8() uint8 {
 	return uint8(s)
 }
 
-// String returns a human-readable representation of the State.
 func (s NodeState) String() string {
 	switch s {
 	case FOLLOWER:
@@ -48,17 +45,14 @@ func (s NodeState) String() string {
 	}
 }
 
-// IsValid checks whether the State is within the valid Raft states.
 func (s NodeState) IsValid() bool {
 	return s >= FOLLOWER && s <= LEADER
 }
 
-// Encode converts a domain State into its protobuf representation.
 func (s NodeState) Encode() graftpb.NodeState {
 	return graftpb.NodeState(s)
 }
 
-// Decode populates a domain State from its protobuf representation.
 func (s *NodeState) Decode(pb graftpb.NodeState) {
 	*s = NodeState(pb)
 }

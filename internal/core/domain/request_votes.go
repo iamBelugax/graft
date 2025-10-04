@@ -10,7 +10,6 @@ type RequestVoteRequest struct {
 	CandidateID  string // CandidateID is the identifier of the requesting candidate.
 }
 
-// Encode converts a domain RequestVotePayload into its protobuf representation.
 func (rvp *RequestVoteRequest) Encode() *graftpb.RequestVoteRequest {
 	return &graftpb.RequestVoteRequest{
 		CandidateId:  rvp.CandidateID,
@@ -20,7 +19,6 @@ func (rvp *RequestVoteRequest) Encode() *graftpb.RequestVoteRequest {
 	}
 }
 
-// Decode populates a domain RequestVotePayload from its protobuf representation.
 func (rvp *RequestVoteRequest) Decode(pb *graftpb.RequestVoteRequest) {
 	rvp.Term = Term(pb.Term)
 	rvp.CandidateID = pb.CandidateId
@@ -34,7 +32,6 @@ type RequestVoteResponse struct {
 	VoteGranted bool // VoteGranted indicates whether the vote was granted.
 }
 
-// Encode converts a domain RequestVoteResponse into its protobuf representation.
 func (rvr *RequestVoteResponse) Encode() *graftpb.RequestVoteResponse {
 	return &graftpb.RequestVoteResponse{
 		Term:        rvr.Term.AsUint64(),
@@ -42,7 +39,6 @@ func (rvr *RequestVoteResponse) Encode() *graftpb.RequestVoteResponse {
 	}
 }
 
-// Decode populates a domain RequestVoteResponse from its protobuf representation.
 func (rvr *RequestVoteResponse) Decode(pb *graftpb.RequestVoteResponse) {
 	rvr.Term = Term(pb.Term)
 	rvr.VoteGranted = pb.VoteGranted

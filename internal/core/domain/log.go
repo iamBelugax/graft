@@ -17,17 +17,14 @@ const (
 	KindHeartbeat
 )
 
-// AsUint8 returns the LogEntryKind as a uint8.
 func (l LogEntryKind) AsUint8() uint8 {
 	return uint8(l)
 }
 
-// Encode converts a domain LogEntryKind into its protobuf equivalent.
 func (l LogEntryKind) Encode() graftpb.EntryKind {
 	return graftpb.EntryKind(l)
 }
 
-// Decode populates a LogEntryKind from its protobuf equivalent.
 func (l *LogEntryKind) Decode(pb graftpb.EntryKind) {
 	*l = LogEntryKind(pb)
 }
@@ -57,7 +54,6 @@ func NewLogEntry(term Term, kind LogEntryKind, index int64, payload []byte) *Log
 	}
 }
 
-// Encode converts a domain LogEntry into its protobuf representation.
 func (le *LogEntry) Encode() *graftpb.LogEntry {
 	return &graftpb.LogEntry{
 		Index:   le.Index,
@@ -67,7 +63,6 @@ func (le *LogEntry) Encode() *graftpb.LogEntry {
 	}
 }
 
-// Decode populates a domain LogEntry from its protobuf representation.
 func (le *LogEntry) Decode(pb *graftpb.LogEntry) {
 	le.Index = pb.Index
 	le.Payload = pb.Payload

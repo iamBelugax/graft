@@ -23,7 +23,6 @@ type AppendEntriesRequest struct {
 	LogEntries []*LogEntry
 }
 
-// Encode converts a domain AppendEntriesPayload into its protobuf representation.
 func (aep *AppendEntriesRequest) Encode() *graftpb.AppendEntriesRequest {
 	pb := graftpb.AppendEntriesRequest{
 		LeaderId:     aep.LeaderID,
@@ -41,7 +40,6 @@ func (aep *AppendEntriesRequest) Encode() *graftpb.AppendEntriesRequest {
 	return &pb
 }
 
-// Decode populates a domain AppendEntriesPayload from its protobuf representation.
 func (aep *AppendEntriesRequest) Decode(pb *graftpb.AppendEntriesRequest) {
 	aep.Term = Term(pb.Term)
 	aep.LeaderID = pb.LeaderId
@@ -75,7 +73,6 @@ type AppendEntriesResponse struct {
 	LastLogIndex int64
 }
 
-// Encode converts a domain AppendEntriesResponse into its protobuf representation.
 func (aer *AppendEntriesResponse) Encode() *graftpb.AppendEntriesResponse {
 	return &graftpb.AppendEntriesResponse{
 		Success:       aer.Success,
@@ -86,7 +83,6 @@ func (aer *AppendEntriesResponse) Encode() *graftpb.AppendEntriesResponse {
 	}
 }
 
-// Decode populates a domain AppendEntriesResponse from its protobuf representation.
 func (aer *AppendEntriesResponse) Decode(pb *graftpb.AppendEntriesResponse) {
 	aer.Term = Term(pb.Term)
 	aer.Success = pb.Success
