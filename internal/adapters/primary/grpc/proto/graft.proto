@@ -6,31 +6,28 @@ option go_package = "github.com/iamBelugax/graft;graftpb";
 
 // NodeState represents the role of a Raft node.
 enum NodeState {
-  FOLLOWER  = 0; // Responds to leader and candidate requests.
-  CANDIDATE = 1; // A node that is trying to become leader.
-  LEADER    = 2; // The elected leader responsible for log replication.
+  FOLLOWER  = 0;
+  CANDIDATE = 1;
+  LEADER    = 2;
 }
 
 // EntryKind represents the type of a log entry in the Raft log.
 enum EntryKind {
-  NORMAL    = 0; // Standard client command entry.
-  HEARTBEAT = 1; // Heartbeat command entry.
+  NORMAL    = 0;
+  HEARTBEAT = 1;
 }
 
 // LogEntry represents a single entry in the replicated Raft log.
 message LogEntry {
-  uint64    term    = 1; // Term when the entry was created by the leader.
-  int64     index   = 2; // Position of the entry in the log.
-  EntryKind kind    = 3; // Type of log entry.
-  bytes     payload = 4; // Command or data to be applied to the state machine.
+  uint64    term    = 1;
+  int64     index   = 2;
+  EntryKind kind    = 3;
+  bytes     payload = 4;
 }
 
 // Graft defines the Raft RPC services.
 service Graft {
-  // RequestVote is invoked by candidates to gather votes during an election.
   rpc RequestVote (RequestVoteRequest) returns (RequestVoteResponse);
-
-  // AppendEntries is invoked by leaders to replicate log entries and send heartbeats.
   rpc AppendEntries (AppendEntriesRequest) returns (AppendEntriesResponse);
 }
 
